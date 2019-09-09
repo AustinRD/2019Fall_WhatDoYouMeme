@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="1st">jQuery Demo</h1>
+    <h1 id="2nd">Second Header</h1>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $ = jQuery
+
+        let size = 32;
+        $(function(){
+            $("h1").on('click', function(){
+                size += 10;
+                $(this).css({ backgroundColor: "red", fontSize: size })
+            })
+        })
+    </script>
+</body>
+</html>
