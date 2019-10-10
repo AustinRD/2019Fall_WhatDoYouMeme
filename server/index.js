@@ -1,28 +1,15 @@
 const express = require('express');
 const path = require('path');
-const userController = require('./controllers/Users')
+const userController = require('./controllers/Users');
+const gameController = require('./controllers/Game');
 
 const app = express();
 const port = 3000;
 
 app
-    .use(function(req, res, next)
-    {
-        //Logging 
-        console.log({params: req.params, body: req.body, url: req.url, query: req.query, headers: req.headers});
-        next();
-    })
     .use('/static', express.static(path.join(__dirname, '../NoFramework')))
+    .use('/users', userController)
+    .use('/game', gameController);
 
-    .get(   '/',
-            (req, res) => res.send('Hello New Paltz!!!')
-        )
-    .get(   '/another',
-            function(req, res)
-            {
-                res.send({msg: 'Another World!'})
-            }
-        )
-    .use(   '/users', userController);
 
 app.listen(port, () => console.log(`Running on http://localhost:${port}`));
