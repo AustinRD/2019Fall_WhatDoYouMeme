@@ -1,15 +1,15 @@
 <template>    
     <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item">
-            <img alt="Vue logo" src="../assets/logo.png" style= "height: 28px">
-            W.D.Y.M
-        </a>
+        <router-link class="navbar-item" to="/">
+                <i class = "fas fa-home fa-pull-left"></i>
+                Home
+        </router-link>
 
         <a @click.prevent="isOpen = !isOpen" role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
         </a>
     </div>
 
@@ -18,18 +18,17 @@
     
         <router-link class="navbar-item" to="/">
             <i class = "fas fa-home fa-pull-left"></i>
-            Home
+            About
         </router-link> |
         <router-link class="navbar-item" to="/about">
-            <i class = "fab fa-vuejs fa-pull-left"></i>
-            About
+            <i class = "fas fa-ghost fa-pull-left"></i>
+            Game
         </router-link>
 
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
-            More
+                More
             </a>
-
             <div class="navbar-dropdown">
             <a class="navbar-item">
                 About
@@ -73,3 +72,15 @@ export default {
     }
 }
 </script>
+
+<style>
+    .active {
+        background-color: aliceblue;
+        font-weight: bold;
+    }
+    .kind-of-active {
+        background-color: rgb(137, 199, 253);
+        font-weight: bold;
+    }
+
+</style>
