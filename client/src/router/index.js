@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const routes = [
   { path: '/', name: 'home', component: Home},
-  { path: '/', name: 'game', component: Game},
+  { path: '/game', name: 'game', component: Game},
   { path: '/about', name: 'about', component: () => import('../views/About.vue')},
 ];
 
