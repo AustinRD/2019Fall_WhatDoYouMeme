@@ -1,6 +1,7 @@
 import { api } from './my-fetch';
 
-export const Game_Server = {
+export const Game_Server = 
+{
     Get_Hand(amount = 7)
     {
         return api('hand');        
@@ -8,6 +9,10 @@ export const Game_Server = {
     Flip_Picture()
     {
         return api('picture/flip');
+    },
+    Join(name)
+    {
+        return api('players', { name });
     },
     Get_State()
     {
