@@ -23,5 +23,6 @@ app.post('/players', (req, res) => {
     {
         res.send({ success: true, player_id });
     }
+    res.send({success: true, player_id});
 });
 module.exports = app;
