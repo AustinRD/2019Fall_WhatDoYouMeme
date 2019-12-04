@@ -77,9 +77,9 @@ export default {
     {
       Game_Server.Flip_Picture();
     },
-    sumbitCaption(caption, i)
+    async sumbitCaption(caption, i)
     {
-      Game_Server.Submit_Caption(caption);
+      const response = await Game_Server.Submit_Caption(caption);
       this.My_Captions.splice(i, 1);
     }
   }
