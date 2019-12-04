@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const userController = require('./controllers/Users');
 const gameController = require('./controllers/Game');
-const { CustomError } = require('./models/CustomError');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -13,15 +12,15 @@ app.use(function (req, res, next) {
     next();
 });
 
-app
-    .use(function (req, res, next) {
-        const arr = req.headers.authorization.split(" ");
-        if(arr.length > 1 && +arr[1]) {
+app.use(function (req, res, next) {
+        const arr = (req.headers.authorization || "").split(" ");
+        if(arr.length > 1 && arr[1] != null) {
             req.user_id = +arr[1];
         }
         else{
             next(new CustomError(403, "Please Log in"));
         }
+        next();
     });
 
 app
