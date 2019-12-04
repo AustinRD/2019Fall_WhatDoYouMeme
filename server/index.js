@@ -17,9 +17,6 @@ app.use(function (req, res, next) {
         if(arr.length > 1 && arr[1] != null) {
             req.user_id = +arr[1];
         }
-        else{
-            next(new CustomError(403, "Please Log in"));
-        }
         next();
     });
 

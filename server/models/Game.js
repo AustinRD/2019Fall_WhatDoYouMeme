@@ -3,10 +3,12 @@ const { CustomError } = require('./CustomError');
 
 module.exports.Game = {
     Players: [
+        /*
         { name: "Austin", points: 0 },
         { name: "Michael", points: 0 },
         { name: "Angelina", points: 0 },
         { name: "Chase", points: 0 },
+        */
     ],
     Picture_Deck: [
         "http://www.dailyhaha.com/_pics/prepared-to-slice-onions.jpg",
@@ -16,25 +18,26 @@ module.exports.Game = {
     ],
     Caption_Deck,
     Top_Of_Picture_Deck: 0,
-    Top_Of_Caption_Deck: 0,
-
+    Top_Of_Caption_Deck: 0,    
     Dealer: 0,
     Captions_In_Play: [],
     Picture_In_Play: "",
     Caption_Chosen: -1,
     Get_Hand(amount = 7)
     {
-        this.Top_Of_Caption_Deck += +amount;
+        this.Top_Of_Caption_Deck = (this.Top_Of_Caption_Deck + +amount) % this.Caption_Deck.length;
         return this.Caption_Deck.slice(this.Top_Of_Caption_Deck - amount, this.Top_Of_Caption_Deck)
     },
     Flip_Picture()
     {
-        this.Picture_In_Play = this.Picture_Deck[this.Top_Of_Picture_Deck++];
-        this.Dealer++;
+        this.Top_Of_Picture_Deck = (this.Top_Of_Picture_Deck++) % this.Picture_Deck.length;
+        this.Picture_In_Play = this.Picture_Deck[this.Top_Of_Picture_Deck];
+        this.Caption_Chosen = -1;
+        this.Captions_In_Play = [];
     },
     Join(name)
     {
-        if(this.Players.find(x => x.name == name))
+        if(this.Players.find(x=> x.name == name ))
         {
             throw new CustomError(409, 'Another user is already using that name.');
         }
@@ -43,22 +46,30 @@ module.exports.Game = {
     },
     Submit_Caption(player_id, text)
     {
-        if(player_id == this.dealer)
+        if(player_id == this.Dealer)
         {
             throw new CustomError(500, "Dealer is not allowed to submit a caption")
         }
-        if(this.Captions_In_Play.some(x=> x.player_id == player_id))
+        if( this.Captions_In_Play.some(x=> x.player_id == player_id))
         {
             throw new CustomError(500, "Sorry, you already submitted a caption")
         }
         this.Captions_In_Play.push({player_id, text});
+    },
+    Choose_Caption(player_id, id)
+    {
+        if(player_id != this.Dealer){
+            throw new CustomError(403, "Only a dealer is allowed to choose the winning caption")
+        }
+        this.Caption_Chosen = id;
+        this.Dealer = (this.Dealer + 1) % this.Players.length;
     },
     Get_State()
     {
         return {
             Players: this.Players,
             Dealer: this.Dealer,
-            Captions_In_Play: this.Captions_In_Play,
+            Captions_In_Play: this.Captions_In_Play.map(x=> ({ text: x.text, player: this.Caption_Chosen == -1 ? 'hidden' : this.Players[x.player_id].name })), 
             Picture_In_Play: this.Picture_In_Play,
             Caption_Chosen: this.Caption_Chosen
         }
