@@ -3,8 +3,8 @@
     <h1 class = "is-size-1">This is the Game Page</h1> 
     <div class="columns">
         <div class="column is-one-quarter">
-            <ul class="panel">
-                <p class="panel-heading">Players</p>
+          <ul class="panel">
+              <p class="panel-heading">Players</p>
                 <li v-for="(p, i) in game.Players" :key="i" 
                     class="panel-block" :class="{'is-active': i == game.Dealer, 'has-text-primary': i == me.User_Id}">
                     <span class = "panel-icon">
@@ -36,7 +36,7 @@
                 <p class = "panel-heading">
                     Captions In Play
                 </p>
-                <li v-for ="(c, i) in game.Captions_In_Play" :key = "i" class = "panel-block is-active" :class="{'has-background-warning': i == game.Caption_Chosen }">
+                <li v-for ="(c, i) in game.Captions_In_Play" :key ="i" class = "panel-block is-active" :class="{'has-background-warning': i == game.Caption_Chosen }">
                     <div class="is-expanded">{{c.text}}</div>
                     <span class="tag " :class=" game.Caption_Chosen > -1 ? 'is-primary' : 'is-light'">{{c.player}}</span>
                     <button class="button is-small is-primary"
@@ -53,7 +53,8 @@
 </template>
 
 <script>
-import { Game_Server } from '../models/Game';
+import { Game_Server } from "../models/Game";
+import toastr from "vanillatoasts/vanillatoasts";
 export default {
     data: () => ({
         game: {},
@@ -69,16 +70,23 @@ export default {
     {
         pictureClicked()
         {
-            Game_Server.Flip_Picture();
+            Game_Server.Flip_Picture().catch(err=> toastr.create({ text: err.message, type: 'error', }) );
         },
         async submitCaption(caption, i)
         {
-            const response = await Game_Server.Submit_Caption(caption);
-            this.My_Captions.splice(i, 1);
+            try
+            {
+                const response = await Game_Server.Submit_Caption(caption);
+                this.My_Captions.splice(i, 1);
+            }
+            catch(err)
+            {
+                toastr.create({ text: err.message, type: 'error', });
+            }
         },
-        async chooseCaption(i)
+        chooseCaption(i)
         {
-            const response = await Game_Server.Choose_Caption(i);
+            Game_Server.Choose_Caption(i).catch(err=> toastr.create({ text: err.message, type: 'error', }) );
         }
     }
 }
@@ -92,5 +100,9 @@ export default {
     .is-expanded 
     {
         flex-grow: 1;
+    }
+    #vanillatoasts-container
+    {
+        z-index: 100;
     }
 </style>

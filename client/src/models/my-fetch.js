@@ -1,9 +1,9 @@
-const api_root = "http://localhost:3000/game/";
+const api_root = "/gameApi/";
 
 export async function api(url, data)
 {
     let response;
-    const headers = { authorization: "bearer" + User.User_id }
+    const headers = { authorization: "bearer " + User.User_id }
 
     if(data)
     {
@@ -11,7 +11,7 @@ export async function api(url, data)
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             headers: {
-                ... headers,
+                ...headers,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data) // body data type must match "Content-Type" header

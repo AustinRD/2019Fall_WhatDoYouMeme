@@ -1,12 +1,13 @@
-import { api, User } from './my-fetch';
-import $router from '../router/index'; 
+
+import { api, User } from "./my-fetch";
+import $router from "../router/index";
 
 export const Game_Server = 
 {
     User,
     Get_Hand(amount = 7)
     {
-        return api('hand');        
+        return api('hand');
     },
     Flip_Picture()
     {
@@ -24,7 +25,7 @@ export const Game_Server =
     {
         const { player_id } = await api('players', { name });
         User.User_id = player_id;
-        $router.push({ name: "game" });
+        $router.push({name: 'game'});
     },
     Get_State()
     {
@@ -32,7 +33,8 @@ export const Game_Server =
     }
 }
 //Just to remind us the shape of a player.
-export class Player {
+export class Player 
+{
     name;
     points;
     captions;
